@@ -25,7 +25,7 @@ class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
             import black
             black
         except:
-            self.report({"ERROR"}, "failed to import black")
+            self.report({"ERROR"}, "Black was not found")
             return {"CANCELLED"}
 
         self.report({"INFO"}, "Black was executed successfully")

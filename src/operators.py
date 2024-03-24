@@ -7,11 +7,10 @@ PYTHON_EXECUTABLE = sys.executable
 
 class BLACK_WRAPPER_OT_InstallBlack(bpy.types.Operator):
     bl_idname = "black_wrapper.install_black"
-    bl_label = "install or update black"
-    bl_description = "install or update black"
+    bl_label = "install latest Black"
+    bl_description = "install latest Black"
 
     def execute(self, _):
-        self.report({"INFO"}, "install black")
         try:
             subprocess.run([PYTHON_EXECUTABLE, "-m", "ensurepip"], check=True)
         except subprocess.CalledProcessError:
