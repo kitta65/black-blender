@@ -1,7 +1,14 @@
 on: [push]
 jobs:
-  # TODO add test job
-  # TODO add release job
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: lscr.io/linuxserver/blender:4.0.2-ls99
+    steps:
+      - uses: actions/checkout@v4
+      - run: ln -s $(pwd)/src /blender/4.0/scripts/addons/myaddon
+      - run: blender --background --python-exit-code 1 --python tests/e2e.py
+
   artifact:
     runs-on: ubuntu-latest
     steps:
@@ -13,3 +20,15 @@ jobs:
         with:
           name: black_blender
           path: artifact/
+
+  release:
+    if: ${{ github.ref_type == 'tag' }}
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: zip -r ./black_blender.zip ./src
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: ./black_blender.zip
+          generateReleaseNotes: 'true'

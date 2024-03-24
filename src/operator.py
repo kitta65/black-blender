@@ -24,7 +24,7 @@ PYTHON_EXECUTABLE = sys.executable
 
 
 class BLACK_BLENDER_OT_Install(bpy.types.Operator):
-    bl_idname = "black_blender.install_black"
+    bl_idname = "black_blender.install"
     bl_label = "install latest Black"
     bl_description = "install latest Black"
 
