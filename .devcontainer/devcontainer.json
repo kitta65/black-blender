@@ -1,0 +1,33 @@
+{
+  "name": "blender",
+  "workspaceFolder": "/config/${localWorkspaceFolderBasename}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/config/${localWorkspaceFolderBasename},type=bind",
+  "remoteUser": "kasm-user", // created by linuxserver/blender
+  "image": "lscr.io/linuxserver/blender:4.0.2-ls99",
+  "overrideCommand": false,
+  "forwardPorts": [
+    3000,
+    3001
+  ],
+  "containerEnv": {
+    // specify the same value as your local environement
+    "PUID": "1000", // id -u
+    "PGID": "1000", // id -g
+    "TZ": "Etc/UTC" // cat /etc/timezone
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "postCreateCommand": "/blender/4.0/python/bin/python3.10 -m pip install fake-bpy-module-4.0 && sudo ln -s $(pwd)/src /blender/4.0/scripts/addons/myaddon",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/blender/4.0/python/bin/python3.10"
+      }
+    }
+  }
+}
