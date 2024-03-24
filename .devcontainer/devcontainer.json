@@ -13,7 +13,8 @@
     // specify the same value as your local environement
     "PUID": "1000", // id -u
     "PGID": "1000", // id -g
-    "TZ": "Etc/UTC" // cat /etc/timezone
+    "TZ": "Etc/UTC", // cat /etc/timezone
+    "PYTHONPATH": "/config/.local/lib/python3.10/site-packages"
   },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
