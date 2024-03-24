@@ -1,58 +1,39 @@
 import bpy
-import bmesh
-import random
+
+from .operators import BLACK_WRAPPER_OT_InstallBlack  # , BLACK_WRAPPER_OT_Format
 
 bl_info = {
-    "name": "Thanos",
+    "name": "Black",
     "author": "kitta65",
     "version": (0, 0, 1),
     "blender": (4, 0, 0),
-    "location": "View3D > Mesh > Thanos",
-    "description": "Wipe out half of the vertices / edges / faces",
+    "location": "TODO",
+    "description": "Format Python script using Black",
     "support": "COMMUNITY",
-    "doc_url": "https://github.com/kitta65/thanos-blender",
-    "tracker_url": "https://github.com/kitta65/thanos-blender/issues",
-    "category": "Sample",
+    "doc_url": "https://github.com/kitta65/black-blender",
+    "tracker_url": "https://github.com/kitta65/black-blender/issues",
+    "category": "Development",
 }
 
 
-class THANOS_OT_SnapFingers(bpy.types.Operator):
-    bl_idname = "thanos.snap_fingers"
-    bl_label = "Thanos"
-    bl_description = "Wipe out half of the vertices / edges / faces"
-    bl_options = {"UNDO"}
+class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
+    bl_idname = __name__
 
-    def execute(self, context):
-        modes = ["VERTS", "EDGES", "FACES_ONLY"]
-        bools = context.scene.tool_settings.mesh_select_mode
-        mode = [m for b, m in zip(bools, modes) if b][0]
-
-        me = context.object.data
-        bm = bmesh.from_edit_mesh(me)
-
-        match mode:
-            case "VERTS":
-                all = bm.verts
-            case "EDGES":
-                all = bm.edges
-            case "FACES_ONLY":
-                all = bm.faces
-
-        selection = [x for x in all if x.select]
-        half = random.sample(selection, len(selection) // 2)
-        bmesh.ops.delete(bm, geom=half, context=mode)
-        bmesh.update_edit_mesh(me)
-        bm.free()
-
-        return {"FINISHED"}
+    def draw(self, _):
+        layout = self.layout
+        layout.operator(BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="COMMUNITY")
 
 
 def menu(cls, _):
     cls.layout.separator()
-    cls.layout.operator(THANOS_OT_SnapFingers.bl_idname, icon="COMMUNITY")
+    cls.layout.operator(BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="COMMUNITY")
 
 
-classes = [THANOS_OT_SnapFingers]
+classes = [
+    BLACK_WRAPPER_OT_InstallBlack,
+    # BLACK_WRAPPER_OT_Format,
+    BLACK_WRAPPER_Preferences,
+]
 
 
 def register():
