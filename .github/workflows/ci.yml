@@ -1,0 +1,15 @@
+on: [push]
+jobs:
+  # TODO add test job
+  # TODO add release job
+  artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p artifact
+          mv src artifact/black
+      - uses: actions/upload-artifact@v4
+        with:
+          name: black
+          path: artifact/
