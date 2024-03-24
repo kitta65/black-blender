@@ -36,7 +36,7 @@ class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
 
     def draw(self, _):
         layout = self.layout
-        layout.operator(BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="COMMUNITY")
+        layout.operator(BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="CONSOLE")
 
 
 def menu(cls, _):
