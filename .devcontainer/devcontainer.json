@@ -16,10 +16,13 @@
     "TZ": "Etc/UTC", // cat /etc/timezone
     "PIP_TARGET": "/blender/4.0/python/lib/python3.10/site-packages"
   },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/config/.local/bin"
+  },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
   },
-  "postCreateCommand": "sudo chmod -R 777 /blender/4.0 && ln -s $(pwd)/src /blender/4.0/scripts/addons/myaddon && /blender/4.0/python/bin/python3.10 -m pip install fake-bpy-module-4.0",
+  "postCreateCommand": "sudo chmod -R 777 /blender/4.0 && ln -s $(pwd)/src /blender/4.0/scripts/addons/myaddon && mkdir -p /config/.local/bin && ln -s /blender/4.0/python/bin/python3.10 /config/.local/bin/python && python -m pip install fake-bpy-module-4.0",
   "customizations": {
     "vscode": {
       "extensions": [
