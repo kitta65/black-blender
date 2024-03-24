@@ -1,6 +1,6 @@
 import bpy
 
-from .operators import BLACK_WRAPPER_OT_InstallBlack  # , BLACK_WRAPPER_OT_Format
+from .operators import BLACK_WRAPPER_OT_InstallBlack
 
 bl_info = {
     "name": "Black",
@@ -15,6 +15,21 @@ bl_info = {
     "category": "Development",
 }
 
+class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
+    bl_idname = "black_wrapper.format"
+    bl_label = "Format"
+    bl_description = "Format Python script using Black"
+
+    def execute(self, _):
+        try:
+            import black
+            black
+        except:
+            self.report({"ERROR"}, "failed to import black")
+            return {"CANCELLED"}
+
+        self.report({"INFO"}, "Black was executed successfully")
+        return {"FINISHED"}
 
 class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
@@ -26,12 +41,12 @@ class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
 
 def menu(cls, _):
     cls.layout.separator()
-    cls.layout.operator(BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="COMMUNITY")
+    cls.layout.operator(BLACK_WRAPPER_OT_Format.bl_idname, icon="COMMUNITY")
 
 
 classes = [
     BLACK_WRAPPER_OT_InstallBlack,
-    # BLACK_WRAPPER_OT_Format,
+    BLACK_WRAPPER_OT_Format,
     BLACK_WRAPPER_Preferences,
 ]
 

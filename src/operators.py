@@ -16,7 +16,7 @@ class BLACK_WRAPPER_OT_InstallBlack(bpy.types.Operator):
             subprocess.run([PYTHON_EXECUTABLE, "-m", "ensurepip"], check=True)
         except subprocess.CalledProcessError:
             self.report({"ERROR"}, "failed to execute ensurepip")
-            return {"CANCELED"}
+            return {"CANCELLED"}
 
         try:
             subprocess.run(
@@ -25,26 +25,7 @@ class BLACK_WRAPPER_OT_InstallBlack(bpy.types.Operator):
             )
         except subprocess.CalledProcessError:
             self.report({"ERROR"}, "failed to install Black")
-            return {"CANCELED"}
+            return {"CANCELLED"}
 
         self.report({"INFO"}, "Black was installed successfully")
-        return {"FINISHED"}
-
-
-class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
-    bl_idname = "black_wrapper.format"
-    bl_label = "TODO"
-    bl_description = "TODO"
-
-    def execute(self, _):
-        try:
-            import black
-
-            black
-
-        except subprocess.CalledProcessError:
-            self.report({"ERROR"}, "failed to import")
-            return {"CANCELED"}
-
-        self.report({"INFO"}, "Black was executed successfully")
         return {"FINISHED"}
