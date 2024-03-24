@@ -1,13 +1,13 @@
 import bpy
 
-from .operators import BLACK_WRAPPER_OT_InstallBlack
+from .operators import BLACK_WRAPPER_OT_InstallBlack, BLACK_WRAPPER_OT_Format
 
 bl_info = {
     "name": "Black",
     "author": "kitta65",
     "version": (0, 0, 1),
     "blender": (4, 0, 0),
-    "location": "TODO",
+    "location": "TEXT Editor > Format > Run Black",
     "description": "Format Python script using Black",
     "support": "COMMUNITY",
     "doc_url": "https://github.com/kitta65/black-blender",
@@ -15,21 +15,6 @@ bl_info = {
     "category": "Development",
 }
 
-class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
-    bl_idname = "black_wrapper.format"
-    bl_label = "Format"
-    bl_description = "Format Python script using Black"
-
-    def execute(self, _):
-        try:
-            import black
-            black
-        except:
-            self.report({"ERROR"}, "Black was not found")
-            return {"CANCELLED"}
-
-        self.report({"INFO"}, "Black was executed successfully")
-        return {"FINISHED"}
 
 class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
@@ -41,7 +26,7 @@ class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
 
 def menu(cls, _):
     cls.layout.separator()
-    cls.layout.operator(BLACK_WRAPPER_OT_Format.bl_idname, icon="COMMUNITY")
+    cls.layout.operator(BLACK_WRAPPER_OT_Format.bl_idname, icon="SCRIPT")
 
 
 classes = [
@@ -55,11 +40,11 @@ def register():
     for c in classes:
         bpy.utils.register_class(c)
 
-    bpy.types.VIEW3D_MT_edit_mesh.append(menu)
+    bpy.types.TEXT_MT_format.append(menu)
 
 
 def unregister():
-    bpy.types.VIEW3D_MT_edit_mesh.remove(menu)
+    bpy.types.TEXT_MT_format.remove(menu)
 
     for c in reversed(classes):
         bpy.utils.unregister_class(c)

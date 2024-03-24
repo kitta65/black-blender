@@ -28,3 +28,21 @@ class BLACK_WRAPPER_OT_InstallBlack(bpy.types.Operator):
 
         self.report({"INFO"}, "Black was installed successfully")
         return {"FINISHED"}
+
+
+class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
+    bl_idname = "black_wrapper.format"
+    bl_label = "Run Black"
+    bl_description = "Format Python script using Black"
+
+    def execute(self, _):
+        try:
+            import black
+
+            black
+        except:
+            self.report({"ERROR"}, "Black was not found")
+            return {"CANCELLED"}
+
+        self.report({"INFO"}, "Black was executed successfully")
+        return {"FINISHED"}
