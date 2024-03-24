@@ -23,8 +23,8 @@ ERROR: Final[str] = "ERROR"
 PYTHON_EXECUTABLE = sys.executable
 
 
-class BLACK_WRAPPER_OT_InstallBlack(bpy.types.Operator):
-    bl_idname = "black_wrapper.install_black"
+class BLACK_BLENDER_OT_Install(bpy.types.Operator):
+    bl_idname = "black_blender.install_black"
     bl_label = "install latest Black"
     bl_description = "install latest Black"
 
@@ -48,8 +48,8 @@ class BLACK_WRAPPER_OT_InstallBlack(bpy.types.Operator):
         return {FINISHED}
 
 
-class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
-    bl_idname = "black_wrapper.format"
+class BLACK_BLENDER_OT_Format(bpy.types.Operator):
+    bl_idname = "black_blender.format"
     bl_label = "Run Black"
     bl_description = "Format Python script using Black"
     bl_options = {"UNDO"}
@@ -66,7 +66,7 @@ class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
             text = space.text
             try:
                 formatted = format(text.as_string())
-            except exception.BlackWrapperException:
+            except exception.BlackBlenderException:
                 self.report({ERROR}, "failed to format")
                 return {CANCELLED}
 
@@ -83,6 +83,11 @@ def format(text: str) -> str:
     try:
         import black
     except:
-        raise exception.BlackWrapperException()
+        raise exception.BlackBlenderException("Black not found")
 
-    return black.format_str(text, mode=black.FileMode())
+    try:
+        result = black.format_str(text, mode=black.FileMode())
+    except:
+        raise exception.BlackBlenderException("Failed to format")
+
+    return result

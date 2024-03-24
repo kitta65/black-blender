@@ -7,7 +7,7 @@ else:
     from . import operator
 
 bl_info = {
-    "name": "Black",
+    "name": "Black Blender",
     "author": "kitta65",
     "version": (0, 0, 1),
     "blender": (4, 0, 0),
@@ -20,25 +20,25 @@ bl_info = {
 }
 
 
-class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
+class BLACK_BLENDER_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
 
     def draw(self, _):
         layout = self.layout
         layout.operator(
-            operator.BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="CONSOLE"
+            operator.BLACK_BLENDER_OT_Install.bl_idname, icon="CONSOLE"
         )
 
 
 def menu(cls, _):
     cls.layout.separator()
-    cls.layout.operator(operator.BLACK_WRAPPER_OT_Format.bl_idname, icon="SCRIPT")
+    cls.layout.operator(operator.BLACK_BLENDER_OT_Format.bl_idname, icon="SCRIPT")
 
 
 classes = [
-    operator.BLACK_WRAPPER_OT_InstallBlack,
-    operator.BLACK_WRAPPER_OT_Format,
-    BLACK_WRAPPER_Preferences,
+    operator.BLACK_BLENDER_OT_Install,
+    operator.BLACK_BLENDER_OT_Format,
+    BLACK_BLENDER_Preferences,
 ]
 
 

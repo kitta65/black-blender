@@ -8,8 +8,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           mkdir -p artifact
-          mv src artifact/black
+          mv src artifact/black_blender
       - uses: actions/upload-artifact@v4
         with:
-          name: black
+          name: black_blender
           path: artifact/
