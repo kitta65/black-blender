@@ -1,10 +1,10 @@
 import importlib
 import bpy
 
-if "operators" in locals():
-    importlib.reload(operators)
+if "operator" in locals():
+    importlib.reload(operator)
 else:
-    from . import operators
+    from . import operator
 
 bl_info = {
     "name": "Black",
@@ -26,18 +26,18 @@ class BLACK_WRAPPER_Preferences(bpy.types.AddonPreferences):
     def draw(self, _):
         layout = self.layout
         layout.operator(
-            operators.BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="CONSOLE"
+            operator.BLACK_WRAPPER_OT_InstallBlack.bl_idname, icon="CONSOLE"
         )
 
 
 def menu(cls, _):
     cls.layout.separator()
-    cls.layout.operator(operators.BLACK_WRAPPER_OT_Format.bl_idname, icon="SCRIPT")
+    cls.layout.operator(operator.BLACK_WRAPPER_OT_Format.bl_idname, icon="SCRIPT")
 
 
 classes = [
-    operators.BLACK_WRAPPER_OT_InstallBlack,
-    operators.BLACK_WRAPPER_OT_Format,
+    operator.BLACK_WRAPPER_OT_InstallBlack,
+    operator.BLACK_WRAPPER_OT_Format,
     BLACK_WRAPPER_Preferences,
 ]
 

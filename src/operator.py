@@ -1,8 +1,14 @@
+import importlib
 import subprocess
 import sys
 from typing import Final
 
 import bpy
+
+if "exception" in locals():
+    importlib.reload(exception)
+else:
+    from . import exception
 
 # return items
 # https://docs.blender.org/api/current/bpy_types_enum_items/operator_return_items.html
@@ -46,15 +52,37 @@ class BLACK_WRAPPER_OT_Format(bpy.types.Operator):
     bl_idname = "black_wrapper.format"
     bl_label = "Run Black"
     bl_description = "Format Python script using Black"
+    bl_options = {"UNDO"}
 
-    def execute(self, _):
-        try:
-            import black
+    def execute(self, context):
+        for area in context.window.screen.areas:
+            if area.type != "TEXT_EDITOR":
+                continue
 
-            black
-        except:
-            self.report({ERROR}, "Black was not found")
-            return {CANCELLED}
+            space = area.spaces[0]  # active space
+            if not isinstance(space, bpy.types.SpaceTextEditor):
+                continue
 
-        self.report({INFO}, "Black was executed successfully")
+            text = space.text
+            try:
+                formatted = format(text.as_string())
+            except exception.BlackWrapperException:
+                self.report({ERROR}, "failed to format")
+                return {CANCELLED}
+
+            text.from_string(formatted)
+
+            with context.temp_override(area=area):
+                bpy.ops.text.jump(1)  # needed to refresh
+            break  # several text editors may be open, but format only first one
+
         return {FINISHED}
+
+
+def format(text: str) -> str:
+    try:
+        import black
+    except:
+        raise exception.BlackWrapperException()
+
+    return black.format_str(text, mode=black.FileMode())
