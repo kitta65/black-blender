@@ -1,6 +1,7 @@
 import importlib
 import bpy
 
+# https://blenderartists.org/t/how-to-reload-add-on-code/1202715/6
 if "operator" in locals():
     importlib.reload(operator)
 else:
