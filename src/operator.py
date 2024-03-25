@@ -73,7 +73,7 @@ class BLACK_BLENDER_OT_Format(bpy.types.Operator):
             return {CANCELLED}
 
         text.from_string(formatted)
-        bpy.ops.text.jump(1)  # needed to refresh
+        area.tag_redraw()
 
         return {FINISHED}
 
