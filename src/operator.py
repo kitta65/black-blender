@@ -55,26 +55,25 @@ class BLACK_BLENDER_OT_Format(bpy.types.Operator):
     bl_options = {"UNDO"}
 
     def execute(self, context):
-        for area in context.window.screen.areas:
-            if area.type != "TEXT_EDITOR":
-                continue
+        area = context.area
+        if area.type != "TEXT_EDITOR":
+            self.report({ERROR}, "unnexpected area type")
+            return {CANCELLED}
 
-            space = area.spaces[0]  # active space
-            if not isinstance(space, bpy.types.SpaceTextEditor):
-                continue
+        space = area.spaces[0]  # active space
+        if not isinstance(space, bpy.types.SpaceTextEditor):
+            self.report({ERROR}, "unnexpected space type")
+            return {CANCELLED}
 
-            text = space.text
-            try:
-                formatted = format(text.as_string())
-            except exception.BlackBlenderException:
-                self.report({ERROR}, "failed to format")
-                return {CANCELLED}
+        text = space.text
+        try:
+            formatted = format(text.as_string())
+        except exception.BlackBlenderException:
+            self.report({ERROR}, "failed to format")
+            return {CANCELLED}
 
-            text.from_string(formatted)
-
-            with context.temp_override(area=area):
-                bpy.ops.text.jump(1)  # needed to refresh
-            break  # several text editors may be open, but format only first one
+        text.from_string(formatted)
+        bpy.ops.text.jump(1)  # needed to refresh
 
         return {FINISHED}
 
@@ -82,7 +81,7 @@ class BLACK_BLENDER_OT_Format(bpy.types.Operator):
 def format(text: str) -> str:
     try:
         import black
-    except:
+    except ModuleNotFoundError:
         raise exception.BlackBlenderException("Black not found")
 
     try:
