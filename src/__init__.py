@@ -37,6 +37,7 @@ def menu(cls, _):
 classes = [
     operator.BLACK_BLENDER_OT_Install,
     operator.BLACK_BLENDER_OT_Format,
+    operator.BLACK_BLENDER_OT_Report,
     BLACK_BLENDER_Preferences,
 ]
 
@@ -53,10 +54,10 @@ def register():
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = wm.keyconfigs.addon.keymaps.new(name="Run Black", space_type="TEXT_EDITOR")
+        km = wm.keyconfigs.addon.keymaps.new(name="Object Mode", space_type="EMPTY")
         kmi = km.keymap_items.new(
-            operator.BLACK_BLENDER_OT_Format.bl_idname,
-            "F",
+            operator.BLACK_BLENDER_OT_Report.bl_idname,
+            "P",
             "PRESS",
             ctrl=True,
             shift=True,
