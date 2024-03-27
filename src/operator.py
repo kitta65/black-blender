@@ -23,16 +23,6 @@ ERROR: Final[str] = "ERROR"
 PYTHON_EXECUTABLE = sys.executable
 
 
-class BLACK_BLENDER_OT_Report(bpy.types.Operator):
-    bl_idname = "black_blender.report"
-    bl_label = "dummy operator"
-    bl_description = "dummy operator"
-
-    def execute(self, _):
-        self.report({INFO}, "dummy command executed")
-        return {FINISHED}
-
-
 class BLACK_BLENDER_OT_Install(bpy.types.Operator):
     bl_idname = "black_blender.install"
     bl_label = "install latest Black"
