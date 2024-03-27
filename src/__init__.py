@@ -51,18 +51,19 @@ def register():
     bpy.types.TEXT_MT_format.append(menu)
 
     # https://docs.blender.org/manual/en/latest/advanced/scripting/addon_tutorial.html#keymap
-    wm = bpy.context.window_manager
-    kc = wm.keyconfigs.addon
-    if kc:
-        km = wm.keyconfigs.addon.keymaps.new(name="Object Mode", space_type="EMPTY")
-        kmi = km.keymap_items.new(
+    window_manager = bpy.context.window_manager
+    if window_manager.keyconfigs.addon:
+        keymap = window_manager.keyconfigs.addon.keymaps.new(
+            name="Object Mode", space_type="EMPTY"
+        )
+        items = keymap.keymap_items.new(
             operator.BLACK_BLENDER_OT_Report.bl_idname,
             "P",
             "PRESS",
             ctrl=True,
             shift=True,
         )
-        keymaps.append((km, kmi))
+        keymaps.append((keymap, items))
 
 
 def unregister():
