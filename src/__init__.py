@@ -26,9 +26,7 @@ class BLACK_BLENDER_Preferences(bpy.types.AddonPreferences):
 
     def draw(self, _):
         layout = self.layout
-        layout.operator(
-            operator.BLACK_BLENDER_OT_Install.bl_idname, icon="CONSOLE"
-        )
+        layout.operator(operator.BLACK_BLENDER_OT_Install.bl_idname, icon="CONSOLE")
 
 
 def menu(cls, _):
@@ -42,6 +40,8 @@ classes = [
     BLACK_BLENDER_Preferences,
 ]
 
+keymaps = []
+
 
 def register():
     for c in classes:
@@ -49,8 +49,28 @@ def register():
 
     bpy.types.TEXT_MT_format.append(menu)
 
+    # https://docs.blender.org/manual/en/latest/advanced/scripting/addon_tutorial.html#keymap
+    window_manager = bpy.context.window_manager
+    if window_manager.keyconfigs.addon:
+        keymap = window_manager.keyconfigs.addon.keymaps.new(
+            name="Text",
+            space_type="TEXT_EDITOR",
+        )
+        items = keymap.keymap_items.new(
+            operator.BLACK_BLENDER_OT_Format.bl_idname,
+            "F",
+            "PRESS",
+            shift=True,
+            alt=True,
+        )
+        keymaps.append((keymap, items))
+
 
 def unregister():
+    for keymap, items in keymaps:
+        keymap.keymap_items.remove(items)
+    keymaps.clear()
+
     bpy.types.TEXT_MT_format.remove(menu)
 
     for c in reversed(classes):
