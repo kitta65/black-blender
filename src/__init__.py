@@ -67,8 +67,8 @@ def register():
 
 
 def unregister():
-    for km, kmi in keymaps:
-        km.keymap_items.remove(kmi)
+    for keymap, items in keymaps:
+        keymap.keymap_items.remove(items)
     keymaps.clear()
 
     bpy.types.TEXT_MT_format.remove(menu)
