@@ -9,7 +9,7 @@ This add-on formats your Python scripts using [black](https://github.com/psf/bla
    1. install `black_blender.zip`
    2.  find `Black Blender` and enable
    3.   click `install latest Black` button in add-on preferences
-3. open Python script in text editor and click `Format > Run Black` (or `Ctrl+Alt+F`)
+3. open Python script in text editor and click `Format > Run Black` (or `Shift+Alt+F`)
 
 ## Feedback
 
