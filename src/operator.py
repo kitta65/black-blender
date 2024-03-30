@@ -68,8 +68,8 @@ class BLACK_BLENDER_OT_Format(bpy.types.Operator):
         text = space.text
         try:
             formatted = format(text.as_string())
-        except exception.BlackBlenderException:
-            self.report({ERROR}, "failed to format")
+        except exception.BlackBlenderException as e:
+            self.report({ERROR}, str(e))
             return {CANCELLED}
 
         text.from_string(formatted)
